@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
 use App\Models\Review;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /**
+         * 📄 Bootstrap 5 Pagination across all views
+         */
+        Paginator::useBootstrapFive();
+
         /**
          * 🟢 Super Admin Override (যাতে Admin সব পারমিশন পায়)
          */

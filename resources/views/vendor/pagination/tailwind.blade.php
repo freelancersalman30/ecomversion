@@ -1,3 +1,12 @@
+<style>
+    nav svg.w-5, nav .w-5 {
+        width: 1.25rem !important;
+        height: 1.25rem !important;
+        max-width: 20px !important;
+        max-height: 20px !important;
+        display: inline-block !important;
+    }
+</style>
 @if ($paginator->hasPages())
     <nav role="navigation" aria-label="{{ __('Pagination Navigation') }}" class="flex items-center justify-between">
         <div class="flex justify-between flex-1 sm:hidden">

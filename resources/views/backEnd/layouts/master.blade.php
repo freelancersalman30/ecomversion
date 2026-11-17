@@ -19,6 +19,15 @@
     <link rel="stylesheet" href="{{asset('public/backEnd/')}}/assets/css/toastr.min.css" />
     <!-- custom css -->
     <link href="{{asset('public/backEnd/')}}/assets/css/custom.css" rel="stylesheet" type="text/css" />
+    <style>
+      .pagination svg, nav svg.w-5, nav .w-5 {
+        width: 1.25rem !important;
+        height: 1.25rem !important;
+        max-width: 20px !important;
+        max-height: 20px !important;
+        vertical-align: middle;
+      }
+    </style>
     <!-- Head js -->
     @yield('css')
     <script src="{{asset('public/backEnd/')}}/assets/js/head.js"></script>
