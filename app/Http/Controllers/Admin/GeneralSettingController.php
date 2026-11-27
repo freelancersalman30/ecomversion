@@ -120,7 +120,7 @@ class GeneralSettingController extends Controller
     
     public function edit($id)
     {
-        $edit_data = GeneralSetting::find($id);
+        $edit_data = GeneralSetting::find($id) ?? GeneralSetting::first();
         return view('backEnd.settings.edit',compact('edit_data'));
     }
     
@@ -218,6 +218,7 @@ class GeneralSettingController extends Controller
         }else{
             $input['favicon'] = $update_data->favicon;
         }
+        $input['show_product_review'] = $request->show_product_review !== null ? (int)$request->show_product_review : 1;
         $input['status'] = 1;
         $update_data->update($input);
 
@@ -247,6 +248,18 @@ class GeneralSettingController extends Controller
         File::delete($delete_data->image);
         $delete_data->delete();
         Toastr::success('Success','Data delete successfully');
+        return redirect()->back();
+    }
+
+    public function toggleProductReview(Request $request)
+    {
+        $setting = GeneralSetting::first();
+        if ($setting) {
+            $setting->show_product_review = $setting->show_product_review == 1 ? 0 : 1;
+            $setting->save();
+            $statusText = $setting->show_product_review == 1 ? 'enabled (ON)' : 'disabled (OFF)';
+            Toastr::success("Product card reviews {$statusText} successfully!", "Success");
+        }
         return redirect()->back();
     }
 }

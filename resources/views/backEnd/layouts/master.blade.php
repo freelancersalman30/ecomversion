@@ -372,8 +372,9 @@
   <div class="collapse" id="sidebar-product-review">
     <ul class="nav-second-level">
       <li><a href="{{ route('reviews.pending') }}"><i data-feather="file-plus"></i> Pending Reviews ({{ $pending_reviews }})</a></li>
-      <li><a href="{{ route('reviews.pending') }}"><i data-feather="file-plus"></i> Create</a></li>
-      <li><a href="{{ route('reviews.index') }}"><i data-feather="file-plus"></i> All Reviews</a></li>
+      <li><a href="{{ route('reviews.create') }}"><i data-feather="plus-circle"></i> Create Review</a></li>
+      <li><a href="{{ route('reviews.index') }}"><i data-feather="list"></i> All Reviews</a></li>
+      <li><a href="{{ route('settings.edit', $generalsetting->id ?? 1) }}#review-setting"><i data-feather="star"></i> Card Review: <span class="badge {{ ($generalsetting->show_product_review ?? 1) == 1 ? 'bg-success' : 'bg-danger' }} ms-1">{{ ($generalsetting->show_product_review ?? 1) == 1 ? 'ON' : 'OFF' }}</span></a></li>
     </ul>
   </div>
 </li>

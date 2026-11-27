@@ -13,8 +13,20 @@
      <div class="row">
         <div class="col-12">
             <div class="page-title-box">
-                <div class="page-title-right">
-                    <a href="{{route('reviews.create')}}" class="btn btn-primary rounded-pill">Create</a>
+                <div class="page-title-right d-flex align-items-center gap-2">
+                    <form action="{{ route('settings.toggle_product_review') }}" method="POST" class="d-inline">
+                        @csrf
+                        @if(($generalsetting->show_product_review ?? 1) == 1)
+                            <button type="submit" class="btn btn-success rounded-pill" title="Click to Turn OFF Product Card Reviews">
+                                <i class="fe-check-circle"></i> Card Review: ON
+                            </button>
+                        @else
+                            <button type="submit" class="btn btn-outline-danger rounded-pill" title="Click to Turn ON Product Card Reviews">
+                                <i class="fe-slash"></i> Card Review: OFF
+                            </button>
+                        @endif
+                    </form>
+                    <a href="{{route('reviews.create')}}" class="btn btn-primary rounded-pill"><i class="fe-plus"></i> Create</a>
                 </div>
                 <h4 class="page-title">All Review</h4>
             </div>

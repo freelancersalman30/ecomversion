@@ -87,6 +87,7 @@
                             </div>
                         </div>
 
+                        @if(($generalsetting->show_product_review ?? 1) == 1)
                         @php
                             $averageRating = $value->reviews->avg('ratting') ?? 0; 
                             $filledStars = floor($averageRating);
@@ -108,6 +109,7 @@
                             @endfor
                         @else
                             <span>Invalid rating range</span>
+                        @endif
                         @endif
 
                         <div class="pro_price">

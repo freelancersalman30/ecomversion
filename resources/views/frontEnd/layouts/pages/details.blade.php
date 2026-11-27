@@ -190,6 +190,7 @@
                                                 @endif <span id="newPrice">৳{{ $details->new_price }}</span>
 
                                             </p>
+                                            @if(($generalsetting->show_product_review ?? 1) == 1)
                                             <div class="details-ratting-wrapper">
                                             @php
                                                 $averageRating = $reviews->avg('ratting') ?? 0;
@@ -218,6 +219,7 @@
                                             @endif
                                             <a class="all-reviews-button" href="#writeReview">See Reviews</a>
                                             </div>
+                                            @endif
                                             <div class="product-code">
                                                 <p><span>প্রোডাক্ট কোড : </span>{{ $details->product_code }}</p>
                                             </div>
@@ -620,6 +622,7 @@
                             </div>
                         </div>
 
+                        @if(($generalsetting->show_product_review ?? 1) == 1)
                         @php
                             $averageRating = $value->reviews->avg('ratting') ?? 0; 
                             $filledStars = floor($averageRating);
@@ -637,6 +640,7 @@
                         @for ($i = 0; $i < $emptyStars; $i++)
                             <i class="far fa-star"></i>
                         @endfor
+                        @endif
 
                         <div class="pro_price">
                             <p>

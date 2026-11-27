@@ -538,6 +538,7 @@ Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('admin.
     Route::post('settings/inactive', [GeneralSettingController::class,'inactive'])->name('settings.inactive');
     Route::post('settings/active', [GeneralSettingController::class,'active'])->name('settings.active');
     Route::post('settings/destroy', [GeneralSettingController::class,'destroy'])->name('settings.destroy');
+    Route::post('settings/toggle-product-review', [GeneralSettingController::class,'toggleProductReview'])->name('settings.toggle_product_review');
 
      // settings route 
     Route::get('social-media/manage', [SocialMediaController::class,'index'])->name('socialmedias.index');

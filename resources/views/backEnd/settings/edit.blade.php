@@ -295,6 +295,21 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="col-md-4 col-sm-6 mb-3" id="review-setting">
+                        <div class="form-group">
+                            <label for="show_product_review" class="d-block fw-bold text-primary">⭐ Product Card Review / Rating</label>
+                            <select class="form-control" name="show_product_review" id="show_product_review">
+                                <option value="1" @if(($edit_data->show_product_review ?? 1) == 1) selected @endif >Show (ON)</option>
+                                <option value="0" @if(($edit_data->show_product_review ?? 1) == 0) selected @endif >Hide (OFF)</option>
+                            </select>
+                            <small class="text-muted">Turn ON/OFF star ratings on all product cards</small>
+                            @error('show_product_review')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
                     <div class="col-md-4 col-sm-6 mb-3">
                         <div class="form-group">
                             <label for="status" class="d-block">Status</label>
