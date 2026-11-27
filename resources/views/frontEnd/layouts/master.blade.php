@@ -4,12 +4,12 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-        <title>@yield('title') - {{$generalsetting->name}}</title>
+        <title>@yield('title') - {{$generalsetting->name ?? 'Apiz Mart'}}</title>
 		@if(!empty($seo->search_console_verification))
 {!! $seo->search_console_verification ?? '' !!}
 @endif
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{asset($generalsetting->favicon)}}" alt="Super Ecommerce Favicon" />
+        <link rel="shortcut icon" href="{{asset($generalsetting->favicon ?? '')}}" alt="Super Ecommerce Favicon" />
         <meta name="author" content="Super Ecommerce" />
         <link rel="canonical" href="" />
         @stack('seo') 
@@ -117,7 +117,7 @@
         <div class="mobile-menu">
                 <div class="mobile-menu-logo">
                     <div class="logo-image">
-                        <img src="{{asset($generalsetting->dark_logo)}}" alt="" />
+                        <img src="{{asset($generalsetting->dark_logo ?? '')}}" alt="" />
                     </div>
                     <div class="mobile-menu-close">
                         <i class="fa fa-times"></i>
@@ -168,7 +168,7 @@
                         </a>
                     </div>
                     <div class="menu-logo">
-                        <a href="{{route('home')}}"><img src="{{asset($generalsetting->dark_logo)}}" alt="" /></a>
+                        <a href="{{route('home')}}"><img src="{{asset($generalsetting->dark_logo ?? '')}}" alt="" /></a>
                     </div>
 <div class="menu-bag">
     <a href="{{ route('customer.checkout') }}" class="margin-shopping">
@@ -196,7 +196,7 @@
                             <div class="col-sm-12">
                                 <div class="logo-header">
                                     <div class="main-logo">
-                                        <a href="{{route('home')}}"><img src="{{asset($generalsetting->dark_logo)}}" alt="" /></a>
+                                        <a href="{{route('home')}}"><img src="{{asset($generalsetting->dark_logo ?? '')}}" alt="" /></a>
                                     </div>
                                     <div class="main-search">
                                         <form action="{{route('search')}}">
@@ -342,7 +342,7 @@
                         <div class="col-sm-4 mb-3 mb-sm-0">
                             <div class="footer-about">
                                 <a href="{{route('home')}}">
-                                    <img src="{{asset($generalsetting->white_logo)}}" alt="" />
+                                    <img src="{{asset($generalsetting->white_logo ?? '')}}" alt="" />
                                 </a>
                                 <p>{{$contact->address}}</p>
                                 <a href="tel:{{$contact->hotline}}" class="footer-hotlint">{{$contact->hotline}}</a>
@@ -401,7 +401,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="copyright">
-								<p><span style="color: white;">Copyright © {{ date('Y') }} {{$generalsetting->name}}. All rights reserved </span> | <span style="color: white;">Website Designed by: <a href="https://apizmart.com/"><span style="color: white;">Apiz Mart Ltd.</span></a></span></p>
+								<p><span style="color: white;">Copyright © {{ date('Y') }} {{$generalsetting->name ?? 'Apiz Mart'}}. All rights reserved </span> | <span style="color: white;">Website Designed by: <a href="https://apizmart.com/"><span style="color: white;">Apiz Mart Ltd.</span></a></span></p>
                             </div>
                         </div>
                     </div>
@@ -474,9 +474,11 @@
 
   <!-- Chat Options -->
   <div class="chat-options" id="chatOptions">
-          <a href="https://m.me/{{$generalsetting->facebook_page_username}}" target="_blank" class="chat-btn messenger" title="Messenger">
-      <i class="fab fa-facebook-messenger"></i>
-    </a>
+    @if(!empty($generalsetting->facebook_page_username))
+      <a href="https://m.me/{{$generalsetting->facebook_page_username}}" target="_blank" class="chat-btn messenger" title="Messenger">
+        <i class="fab fa-facebook-messenger"></i>
+      </a>
+    @endif
           <a href="https://wa.me/{{ $contact->whatsapp }}" target="_blank" class="chat-btn whatsapp" title="WhatsApp">
       <i class="fab fa-whatsapp"></i>
     </a>

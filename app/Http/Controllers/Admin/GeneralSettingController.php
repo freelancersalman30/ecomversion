@@ -228,25 +228,41 @@ class GeneralSettingController extends Controller
  
     public function inactive(Request $request)
     {
+        $totalActive = GeneralSetting::where('status', 1)->count();
+        if ($totalActive <= 1) {
+            Toastr::warning('General Setting cannot be inactivated. The store requires at least one active General Setting.', 'Warning');
+            return redirect()->back();
+        }
         $inactive = GeneralSetting::find($request->hidden_id);
-        $inactive->status = 0;
-        $inactive->save();
+        if ($inactive) {
+            $inactive->status = 0;
+            $inactive->save();
+        }
         Toastr::success('Success','Data inactive successfully');
         return redirect()->back();
     }
     public function active(Request $request)
     {
         $active = GeneralSetting::find($request->hidden_id);
-        $active->status = 1;
-        $active->save();
+        if ($active) {
+            $active->status = 1;
+            $active->save();
+        }
         Toastr::success('Success','Data active successfully');
         return redirect()->back();
     }
     public function destroy(Request $request)
     {
+        $total = GeneralSetting::count();
+        if ($total <= 1) {
+            Toastr::warning('The primary General Setting cannot be deleted.', 'Warning');
+            return redirect()->back();
+        }
         $delete_data = GeneralSetting::find($request->hidden_id);
-        File::delete($delete_data->image);
-        $delete_data->delete();
+        if ($delete_data) {
+            File::delete($delete_data->image);
+            $delete_data->delete();
+        }
         Toastr::success('Success','Data delete successfully');
         return redirect()->back();
     }

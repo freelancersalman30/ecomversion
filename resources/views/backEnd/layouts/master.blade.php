@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>@yield('title') - {{$generalsetting->name}}</title>
+    <title>@yield('title') - {{$generalsetting->name ?? 'Apiz Mart'}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{asset($generalsetting->favicon)}}" />
+    <link rel="shortcut icon" href="{{asset($generalsetting->favicon ?? '')}}" />
 
     <!-- Bootstrap css -->
     <link href="{{asset('public/backEnd/')}}/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -149,21 +149,21 @@
           <div class="logo-box">
             <a href="{{url('admin/dashboard')}}" class="logo logo-dark text-center">
               <span class="logo-sm">
-                <img src="{{asset($generalsetting->white_logo)}}" alt="" height="50" />
+                <img src="{{asset($generalsetting->white_logo ?? '')}}" alt="" height="50" />
                 <!-- <span class="logo-lg-text-light">UBold</span> -->
               </span>
               <span class="logo-lg">
-                <img src="{{asset($generalsetting->white_logo)}}" alt="" height="50" />
+                <img src="{{asset($generalsetting->white_logo ?? '')}}" alt="" height="50" />
                 <!-- <span class="logo-lg-text-light">U</span> -->
               </span>
             </a>
 
             <a href="{{url('admin/dashboard')}}" class="logo logo-light text-center">
               <span class="logo-sm">
-                <img src="{{asset($generalsetting->white_logo)}}" alt="" height="50" />
+                <img src="{{asset($generalsetting->white_logo ?? '')}}" alt="" height="50" />
               </span>
               <span class="logo-lg">
-                <img src="{{asset($generalsetting->white_logo)}}" alt="" height="50" />
+                <img src="{{asset($generalsetting->white_logo ?? '')}}" alt="" height="50" />
               </span>
             </a>
           </div>

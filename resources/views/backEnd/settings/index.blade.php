@@ -53,11 +53,15 @@
                             <td>
                                 <div class="button-list">
                                     @if($value->status == 1)
-                                    <form method="post" action="{{route('settings.inactive')}}" class="d-inline"> 
-                                        @csrf
-                                        <input type="hidden" value="{{$value->id}}" name="hidden_id">       
-                                        <button type="submit" class="btn btn-xs btn-danger waves-effect waves-light" title="Inactive"><i class="fe-thumbs-down"></i></button>
-                                    </form>
+                                        @if($show_data->count() > 1 && $show_data->where('status', 1)->count() > 1)
+                                        <form method="post" action="{{route('settings.inactive')}}" class="d-inline"> 
+                                            @csrf
+                                            <input type="hidden" value="{{$value->id}}" name="hidden_id">       
+                                            <button type="submit" class="btn btn-xs btn-danger waves-effect waves-light" title="Inactive"><i class="fe-thumbs-down"></i></button>
+                                        </form>
+                                        @else
+                                        <button type="button" class="btn btn-xs btn-secondary waves-effect waves-light" title="Required: Primary General Setting cannot be inactivated" disabled><i class="fe-thumbs-down"></i></button>
+                                        @endif
                                     @else
                                     <form method="post" action="{{route('settings.active')}}" class="d-inline"> 
                                         @csrf

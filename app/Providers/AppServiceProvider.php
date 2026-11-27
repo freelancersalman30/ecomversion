@@ -67,9 +67,21 @@ class AppServiceProvider extends ServiceProvider
          * 🧠 Global View Share (header, footer, sidebar)
          */
 		 
-		  $pending_reviews = Review::where('status', 'pending')->count();
-    view()->share('pending_reviews', $pending_reviews); 
-        $generalsetting = GeneralSetting::where('status', 1)->first();
+        $pending_reviews = Review::where('status', 'pending')->count();
+        view()->share('pending_reviews', $pending_reviews); 
+
+        $generalsetting = GeneralSetting::where('status', 1)->first() ?? GeneralSetting::first();
+        if (!$generalsetting) {
+            $generalsetting = new GeneralSetting([
+                'name' => 'Apiz Mart',
+                'show_product_review' => 1,
+                'status' => 1,
+            ]);
+        } elseif ($generalsetting->status == 0) {
+            // Auto-heal: store must always have an active general setting
+            $generalsetting->status = 1;
+            $generalsetting->save();
+        }
         view()->share('generalsetting', $generalsetting);
 
         $sidecategories = Category::where('parent_id', 0)->where('status', 1)
