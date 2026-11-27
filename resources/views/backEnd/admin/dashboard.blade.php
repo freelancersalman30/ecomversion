@@ -187,17 +187,32 @@
   <div class="row g-3 mt-2">
     <div class="col-lg-8">
       <div class="chart-box">
-        <h5 class="fw-bold mb-3">Recent Orders</h5>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold mb-0">Recent Orders</h5>
+          <a href="{{ route('admin.orders', ['slug' => 'all']) }}" class="btn btn-xs btn-outline-primary rounded-pill">View All Orders</a>
+        </div>
         <div class="table-responsive">
-          <table class="table table-borderless">
+          <table class="table table-hover align-middle table-borderless">
             <thead class="table-light">
-              <tr><th>Customer</th><th>Invoice</th><th>Status</th><th>Date</th></tr>
+              <tr>
+                <th>Customer</th>
+                <th>Invoice</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th class="text-end">Action</th>
+              </tr>
             </thead>
             <tbody>
-            @foreach($latest_order as $order)
+            @forelse($latest_order as $order)
               <tr>
-                <td>{{ $order->customer->name ?? 'Guest' }}</td>
-                <td>#{{ $order->invoice_id }}</td>
+                <td><strong>{{ $order->customer->name ?? 'Guest' }}</strong></td>
+                <td>
+                  <a href="{{ route('admin.order.invoice', ['invoice_id' => $order->invoice_id]) }}" class="badge bg-soft-primary text-primary font-13 p-1 px-2 text-decoration-none" title="Click to view Invoice #{{ $order->invoice_id }}">
+                    #{{ $order->invoice_id }} <i class="fe-external-link ms-1" style="font-size: 10px;"></i>
+                  </a>
+                </td>
+                <td><strong class="text-dark">৳{{ number_format($order->amount, 2) }}</strong></td>
                 <td>
                   @if($order->order_status == 5)
                     <span class="badge bg-success">Delivered</span>
@@ -208,8 +223,20 @@
                   @endif
                 </td>
                 <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M Y') }}</td>
+                <td class="text-end">
+                  <a href="{{ route('admin.order.invoice', ['invoice_id' => $order->invoice_id]) }}" class="btn btn-xs btn-primary waves-effect waves-light" title="View Invoice">
+                    <i class="fe-file-text"></i> Invoice
+                  </a>
+                  <a href="{{ route('admin.order.process', ['invoice_id' => $order->invoice_id]) }}" class="btn btn-xs btn-info waves-effect waves-light" title="Process Order">
+                    <i class="fe-settings"></i>
+                  </a>
+                </td>
               </tr>
-            @endforeach
+            @empty
+              <tr>
+                <td colspan="6" class="text-center text-muted py-3">No recent orders found.</td>
+              </tr>
+            @endforelse
             </tbody>
           </table>
         </div>

@@ -172,7 +172,11 @@
 
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $order->invoice_id ?? $order->id }}</td>
+                        <td>
+                            <a href="{{ route('admin.order.invoice', ['invoice_id' => $order->invoice_id ?? $order->id]) }}" class="text-primary fw-bold text-decoration-none" title="Click to view Invoice">
+                                #{{ $order->invoice_id ?? $order->id }} <i class="fe-external-link ms-1 font-11"></i>
+                            </a>
+                        </td>
                         <td>{{ $order->customer_name ?? ($order->customer->name ?? '') }}</td>
 
                         <td class="text-end">{{ number_format($rowTotal, 2) }}</td>

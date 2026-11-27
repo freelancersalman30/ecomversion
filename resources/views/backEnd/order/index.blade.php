@@ -86,7 +86,11 @@
                                     </form>
                                 </div>
                             </td>
-                            <td>{{$value->invoice_id}}</td>
+                            <td>
+                                <a href="{{route('admin.order.invoice',['invoice_id'=>$value->invoice_id])}}" class="text-primary fw-bold text-decoration-none" title="Click to view Invoice #{{$value->invoice_id}}">
+                                    #{{$value->invoice_id}} <i class="fe-external-link ms-1 font-11"></i>
+                                </a>
+                            </td>
                             <td>{{date('d-m-Y', strtotime($value->updated_at))}}<br> {{date('h:i:s a', strtotime($value->updated_at))}}</td>
                             <td><strong>{{$value->shipping?$value->shipping->name:''}}</strong><p>{{$value->shipping?$value->shipping->address:''}}</p>{{$value->shipping?$value->shipping->phone:''}}</td>
                             <td>  @php
