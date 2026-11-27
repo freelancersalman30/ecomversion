@@ -54,12 +54,20 @@
                                 <div class="button-list">
                                     @if($value->status == 1)
                                     <form method="post" action="{{route('settings.inactive')}}" class="d-inline"> 
-                                    @csrf
-                                    <input type="hidden" value="{{$value->id}}" name="hidden_id">       
-@endif
+                                        @csrf
+                                        <input type="hidden" value="{{$value->id}}" name="hidden_id">       
+                                        <button type="submit" class="btn btn-xs btn-danger waves-effect waves-light" title="Inactive"><i class="fe-thumbs-down"></i></button>
+                                    </form>
+                                    @else
+                                    <form method="post" action="{{route('settings.active')}}" class="d-inline"> 
+                                        @csrf
+                                        <input type="hidden" value="{{$value->id}}" name="hidden_id">       
+                                        <button type="submit" class="btn btn-xs btn-success waves-effect waves-light" title="Active"><i class="fe-thumbs-up"></i></button>
+                                    </form>
+                                    @endif
 
-                                    <a href="{{route('settings.edit',$value->id)}}" class="btn btn-xs btn-primary waves-effect waves-light"><i class="fe-edit-1"></i></a>
-                                    </div>
+                                    <a href="{{route('settings.edit',$value->id)}}" class="btn btn-xs btn-primary waves-effect waves-light" title="Edit"><i class="fe-edit-1"></i></a>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

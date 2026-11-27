@@ -694,37 +694,7 @@ class OrderController extends Controller
 
     public function order_report(Request $request)
     {
-        $users = User::where('status', 1)->get();
-
-        $orders = OrderDetails::with('shipping', 'order')
-            ->whereHas('order', function ($query) {
-                $query->where('order_status', 6);
-            });
-
-        if ($request->keyword) {
-            $orders = $orders->where('name', 'LIKE', '%' . $request->keyword . "%");
-        }
-        if ($request->user_id) {
-            $orders = $orders->whereHas('order', function ($query) use ($request) {
-                $query->where('user_id', $request->user_id);
-            });
-        }
-        if ($request->start_date && $request->end_date) {
-            $orders = $orders->whereBetween('updated_at', [$request->start_date, $request->end_date]);
-        }
-
-        $total_purchase = $orders->sum(\DB::raw('purchase_price * qty'));
-        $total_item     = $orders->sum('qty');
-        $total_sales    = $orders->sum(\DB::raw('sale_price * qty'));
-        $orders         = $orders->paginate(10);
-
-        return view('backEnd.reports.order', compact(
-            'orders',
-            'users',
-            'total_purchase',
-            'total_item',
-            'total_sales'
-        ));
+        return redirect()->route('admin.reports.orders');
     }
 
     /*

@@ -658,24 +658,28 @@ class CustomerController extends Controller
         $phone = $request->phone;
         $invoice_id = $request->invoice_id;
 
-        if($phone !=null && $invoice_id==null){
-            $order = DB::table('orders')
-                ->join('shippings','orders.id','=','shippings.order_id')
-                ->where(['shippings.phone' => $request->phone])
-                ->get();
-        }else if($invoice_id && $phone){
-            $order = DB::table('orders')
-                ->join('shippings','orders.id','=','shippings.order_id')
-                ->where(['orders.invoice_id' => $request->invoice_id, 'shippings.phone'=>$request->phone])
-                ->get();
-        }
+        $query = DB::table('orders')
+            ->join('shippings','orders.id','=','shippings.order_id');
 
-        if($order->count() == 0){
-            Toastr::error('message', 'Something Went Wrong !');
+        if ($invoice_id && $phone) {
+            $query->where('orders.invoice_id', $invoice_id)->where('shippings.phone', $phone);
+        } elseif ($invoice_id) {
+            $query->where('orders.invoice_id', $invoice_id);
+        } elseif ($phone) {
+            $query->where('shippings.phone', $phone);
+        } else {
+            Toastr::error('Please enter a phone number or invoice ID');
             return redirect()->back();
         }
 
-        return view('frontEnd.layouts.customer.tracking_result',compact('order'));
+        $order = $query->get();
+
+        if ($order->isEmpty()) {
+            Toastr::error('No order found matching your search!');
+            return redirect()->back();
+        }
+
+        return view('frontEnd.layouts.customer.tracking_result', compact('order'));
     }
 
     public function change_pass()

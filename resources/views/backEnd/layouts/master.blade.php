@@ -302,6 +302,7 @@
       <li><a href="{{ route('brands.index') }}"><i data-feather="file-plus"></i> Brands</a></li>
       <li><a href="{{ route('colors.index') }}"><i data-feather="file-plus"></i> Colors</a></li>
       <li><a href="{{ route('sizes.index') }}"><i data-feather="file-plus"></i> Sizes</a></li>
+      <li><a href="{{ route('products.price_edit') }}"><i data-feather="dollar-sign"></i> Price & Stock Edit</a></li>
     </ul>
   </div>
 </li>
@@ -446,6 +447,7 @@
       <li><a href="{{ route('roles.index') }}"><i data-feather="file-plus"></i> Roles</a></li>
       <li><a href="{{ route('permissions.index') }}"><i data-feather="file-plus"></i> Permissions</a></li>
       <li><a href="{{ route('customers.index') }}"><i data-feather="file-plus"></i> Customers</a></li>
+      <li><a href="{{ route('customers.ip_block') }}"><i data-feather="shield-off"></i> IP Blacklist / Block</a></li>
     </ul>
   </div>
 </li>

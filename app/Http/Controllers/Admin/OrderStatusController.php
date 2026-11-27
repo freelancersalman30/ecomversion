@@ -53,6 +53,11 @@ class OrderStatusController extends Controller
         return redirect()->route('orderstatus.index');
     }
  
+    public function show($id)
+    {
+        return redirect()->route('orderstatus.edit', $id);
+    }
+
     public function inactive(Request $request)
     {
         $inactive = OrderStatus::find($request->hidden_id);

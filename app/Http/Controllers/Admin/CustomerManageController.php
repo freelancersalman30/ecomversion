@@ -123,7 +123,10 @@ class CustomerManageController extends Controller
         return redirect()->back();
     }
     public function ipblock_destroy(Request $request){
-        $delete_data = IpBlock::find($request->id)->delete();
+        $delete_data = IpBlock::find($request->id);
+        if ($delete_data) {
+            $delete_data->delete();
+        }
         Toastr::success('Success','IP address delete successfully');
         return redirect()->back();
     }

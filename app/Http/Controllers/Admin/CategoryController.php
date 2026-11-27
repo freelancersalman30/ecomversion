@@ -208,6 +208,11 @@ class CategoryController extends Controller
         return redirect()->route('categories.index');
     }
 
+    public function show($id)
+    {
+        return redirect()->route('categories.edit', $id);
+    }
+
     public function inactive(Request $request)
     {
         $inactive         = Category::find($request->hidden_id);

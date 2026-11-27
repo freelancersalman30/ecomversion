@@ -49,6 +49,11 @@ class PixelsController extends Controller
         return redirect()->route('pixels.index');
     }
  
+    public function show($id)
+    {
+        return redirect()->route('pixels.edit', $id);
+    }
+
     public function inactive(Request $request)
     {
         $inactive =EcomPixel::find($request->hidden_id);

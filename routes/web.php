@@ -281,8 +281,12 @@ Route::group(['prefix'=>'customer','namespace'=>'Frontend','middleware' => ['cus
 Route::group(['namespace'=>'Frontend', 'middleware' => ['ipcheck','check_refer']], function() {
     
     Route::get('bkash/checkout-url/pay',[BkashController::class,'pay'])->name('url-pay');
-Route::any('bkash/checkout-url/create',[BkashController::class,'create'])->name('url-create');
-Route::get('bkash/checkout-url/callback',[BkashController::class,'callback'])->name('url-callback');
+    Route::any('bkash/checkout-url/create',[BkashController::class,'create'])->name('url-create');
+    Route::get('bkash/checkout-url/callback',[BkashController::class,'callback'])->name('url-callback');
+    Route::get('bkash/checkout-url/refund',[BkashController::class,'getRefund'])->name('url-refund');
+    Route::post('bkash/checkout-url/refund',[BkashController::class,'refund'])->name('url-refund.post');
+    Route::get('bkash/checkout-url/refund-status',[BkashController::class,'getRefundStatus'])->name('url-refund-status');
+    Route::post('bkash/checkout-url/refund-status',[BkashController::class,'refundStatus'])->name('url-refund-status.post');
     Route::get('/payment-success', [ShurjopayControllers::class, 'payment_success'])->name('payment_success');
     Route::get('/payment-cancel', [ShurjopayControllers::class, 'payment_cancel'])->name('payment_cancel');
 
@@ -412,15 +416,21 @@ Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('admin.
     
      // paymentgeteway
     Route::get('paymentgeteway/manage', [ApiIntegrationController::class,'pay_manage'])->name('paymentgeteway.manage');
+    Route::get('payment-gateway/manage', [ApiIntegrationController::class,'pay_manage']);
     Route::post('paymentgeteway/save', [ApiIntegrationController::class,'pay_update'])->name('paymentgeteway.update');
+    Route::post('payment-gateway/save', [ApiIntegrationController::class,'pay_update']);
     
      // smsgeteway
     Route::get('smsgeteway/manage', [ApiIntegrationController::class,'sms_manage'])->name('smsgeteway.manage');
+    Route::get('sms-gateway/manage', [ApiIntegrationController::class,'sms_manage']);
     Route::post('smsgeteway/save', [ApiIntegrationController::class,'sms_update'])->name('smsgeteway.update');
+    Route::post('sms-gateway/save', [ApiIntegrationController::class,'sms_update']);
     
     // courierapi
     Route::get('courierapi/manage', [ApiIntegrationController::class,'courier_manage'])->name('courierapi.manage');
+    Route::get('courier-api/manage', [ApiIntegrationController::class,'courier_manage']);
     Route::post('courierapi/save', [ApiIntegrationController::class,'courier_update'])->name('courierapi.update');
+    Route::post('courier-api/save', [ApiIntegrationController::class,'courier_update']);
 
     // attribute
     Route::get('orderstatus/manage', [OrderStatusController::class,'index'])->name('orderstatus.index');

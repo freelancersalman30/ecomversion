@@ -47,10 +47,13 @@ class CouponController extends Controller
         return redirect()->route('admin.coupons.index');
     }
 
-    public function destroy($id)
+    public function destroy($id = null, Request $request = null)
     {
-        Coupon::destroy($id);
-        Toastr::success('Coupon deleted successfully', 'Success');
+        $targetId = $id ?? ($request ? $request->id ?? $request->hidden_id : null);
+        if ($targetId) {
+            Coupon::destroy($targetId);
+            Toastr::success('Coupon deleted successfully', 'Success');
+        }
         return redirect()->back();
     }
 }

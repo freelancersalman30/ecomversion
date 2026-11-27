@@ -1,7 +1,7 @@
 <div class="modal-view quick-product">
 	<button class="close-modal">x</button>
 	<div class="quick-product-img">
-		<img src="{{asset($data->image->image)}}" alt="">
+		<img src="{{asset($data->image ? $data->image->image : '')}}" alt="{{$data->name}}">
 	</div>
 	<div class="quick-product-content">
 		<div class="product-details-cart">
@@ -30,7 +30,7 @@
                     <tbody>                                    
                         <tr>
                             <td class="potro_font">
-                               Category: {{ $data->category->name }}
+                               Category: {{ $data->category ? $data->category->name : 'N/A' }}
                             </td>                                        
                         </tr>
                         <tr>

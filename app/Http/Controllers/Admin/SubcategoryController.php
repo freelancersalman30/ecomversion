@@ -130,6 +130,11 @@ class SubcategoryController extends Controller
         return redirect()->route('subcategories.index');
     }
  
+    public function show($id)
+    {
+        return redirect()->route('subcategories.edit', $id);
+    }
+
     public function inactive(Request $request)
     {
         $inactive = Subcategory::find($request->hidden_id);

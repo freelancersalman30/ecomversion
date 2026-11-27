@@ -52,6 +52,11 @@ class TagManagerController extends Controller
         return redirect()->route('tagmanagers.index');
     }
  
+    public function show($id)
+    {
+        return redirect()->route('tagmanagers.edit', $id);
+    }
+
     public function inactive(Request $request)
     {
         $inactive = GoogleTagManager::find($request->hidden_id);

@@ -40,6 +40,11 @@ class PermissionController extends Controller
         return redirect()->route('permissions.index');
     }
     
+    public function show($id)
+    {
+        return redirect()->route('permissions.index');
+    }
+
     public function edit($id)
     {
         $edit_data = Permission::find($id);

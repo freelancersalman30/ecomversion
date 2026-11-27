@@ -59,6 +59,11 @@ class ColorController extends Controller
         return redirect()->route('colors.index');
     }
  
+    public function show($id)
+    {
+        return redirect()->route('colors.edit', $id);
+    }
+
     public function inactive(Request $request)
     {
         $inactive = Color::find($request->hidden_id);

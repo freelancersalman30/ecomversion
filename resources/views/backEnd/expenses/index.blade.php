@@ -195,7 +195,7 @@
                 @forelse($expenses as $exp)
                     <tr>
                         <td>{{ $loop->iteration + ($expenses->currentPage() - 1)*$expenses->perPage() }}</td>
-                        <td>{{ \Carbon\Carbon::parse($exp->expense_date)->format('d M, Y') }}</td>
+                        <td>{{ $exp->expense_date ? \Carbon\Carbon::parse($exp->expense_date)->format('d M, Y') : ($exp->created_at ? $exp->created_at->format('d M, Y') : '-') }}</td>
                         <td>{{ $exp->title }}</td>
                         <td>{{ $exp->category ?? '-' }}</td>
                         <td class="text-end">{{ number_format($exp->amount, 2) }}</td>

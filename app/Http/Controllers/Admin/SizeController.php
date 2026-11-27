@@ -59,6 +59,11 @@ class SizeController extends Controller
         return redirect()->route('sizes.index');
     }
  
+    public function show($id)
+    {
+        return redirect()->route('sizes.edit', $id);
+    }
+
     public function inactive(Request $request)
     {
         $inactive = Size::find($request->hidden_id);

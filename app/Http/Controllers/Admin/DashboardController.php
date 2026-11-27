@@ -26,6 +26,11 @@ class DashboardController extends Controller
         // $this->middleware('auth')->except(['locked','unlocked']);
     }
 
+    public function index()
+    {
+        return $this->dashboard();
+    }
+
     public function dashboard()
     {
         // =========================
@@ -134,6 +139,16 @@ class DashboardController extends Controller
             ->whereMonth('created_at', Carbon::now()->month)
             ->sum('amount');
 
+        // ক্যাটাগরি অনুযায়ী সেলস (চার্টের জন্য)
+        $category_sales = DB::table('order_details')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('categories.name', DB::raw('SUM(order_details.sale_price * order_details.qty) as total'))
+            ->groupBy('categories.id', 'categories.name')
+            ->orderByDesc('total')
+            ->limit(5)
+            ->get();
+
         return view('backEnd.admin.dashboard', compact(
             'total_order',
             'today_order',
@@ -146,11 +161,13 @@ class DashboardController extends Controller
             'last_week',
             'last_month',
             'monthly_sale',
+            'today_sales',
             'today_profit',
             'fund_balance',
             'total_expenses',
             'today_expenses',
-            'monthly_expenses'
+            'monthly_expenses',
+            'category_sales'
         ));
     }
 

@@ -86,6 +86,11 @@ class ChildcategoryController extends Controller
         return redirect()->route('childcategories.index');
     }
  
+    public function show($id)
+    {
+        return redirect()->route('childcategories.edit', $id);
+    }
+
     public function inactive(Request $request)
     {
         $inactive = Childcategory::find($request->hidden_id);

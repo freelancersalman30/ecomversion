@@ -80,6 +80,11 @@ class BkashController extends Controller
         return $token;
     }
 
+    public function pay(Request $request)
+    {
+        return $this->create($request);
+    }
+
     // 🔥 অর্ডার অনুযায়ী amount নিয়ে create
     public function create(Request $request)
     {     

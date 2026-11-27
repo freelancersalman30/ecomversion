@@ -428,4 +428,85 @@ class ProductController extends Controller
 
         return $matches[1] ?? null;
     }
+
+    public function show($id)
+    {
+        return redirect()->route('products.edit', $id);
+    }
+
+    public function inactive(Request $request)
+    {
+        $product = Product::find($request->hidden_id);
+        if ($product) {
+            $product->status = 0;
+            $product->save();
+            Toastr::success('Success', 'Product inactive successfully');
+        }
+        return redirect()->back();
+    }
+
+    public function active(Request $request)
+    {
+        $product = Product::find($request->hidden_id);
+        if ($product) {
+            $product->status = 1;
+            $product->save();
+            Toastr::success('Success', 'Product active successfully');
+        }
+        return redirect()->back();
+    }
+
+    public function update_deals(Request $request)
+    {
+        Product::whereIn('id', $request->product_ids ?? [])->update(['topsale' => $request->status]);
+        return response()->json(['status' => 'success', 'message' => 'Product deal updated successfully']);
+    }
+
+    public function update_feature(Request $request)
+    {
+        Product::whereIn('id', $request->product_ids ?? [])->update(['feature_product' => $request->status]);
+        return response()->json(['status' => 'success', 'message' => 'Product feature updated successfully']);
+    }
+
+    public function update_status(Request $request)
+    {
+        Product::whereIn('id', $request->product_ids ?? [])->update(['status' => $request->status]);
+        return response()->json(['status' => 'success', 'message' => 'Product status updated successfully']);
+    }
+
+    public function price_edit(Request $request)
+    {
+        $products = Product::where('status', 1)->with('variantPrices.color', 'variantPrices.size')->paginate(50);
+        return view('backEnd.product.price_edit', compact('products'));
+    }
+
+    public function price_update(Request $request)
+    {
+        if ($request->ids) {
+            foreach ($request->ids as $key => $id) {
+                Product::where('id', $id)->update([
+                    'old_price' => $request->old_price[$key] ?? 0,
+                    'new_price' => $request->new_price[$key] ?? 0,
+                    'stock'     => $request->stock[$key] ?? 0,
+                ]);
+            }
+        }
+        if ($request->variant_id) {
+            foreach ($request->variant_id as $vkey => $vid) {
+                \App\Models\ProductVariable::where('id', $vid)->update([
+                    'price' => $request->variant_new_price[$vkey] ?? 0,
+                    'stock' => $request->variant_stock[$vkey] ?? 0,
+                ]);
+            }
+        }
+        Toastr::success('Product prices updated successfully');
+        return redirect()->back();
+    }
+
+    public function pricedestroy(Request $request)
+    {
+        \App\Models\ProductVariable::where('id', $request->id)->delete();
+        Toastr::success('Variant price deleted successfully');
+        return redirect()->back();
+    }
 }

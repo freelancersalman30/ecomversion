@@ -418,6 +418,9 @@ class FrontendController extends Controller
     {
         $soldShow = $request->sold=='show'?true:false;
         $category = Category::where(['slug' => $slug, 'status' => 1])->first();
+        if (!$category) {
+            abort(404);
+        }
 
         $products = Product::where(['status' => 1, 'category_id' => $category->id])
             ->select('id', 'name', 'slug', 'new_price', 'old_price', 'category_id','sold','stock');
@@ -461,6 +464,9 @@ class FrontendController extends Controller
     {
         $soldShow = $request->sold=='show'?true:false;
         $subcategory = Subcategory::where(['slug' => $slug, 'status' => 1])->first();
+        if (!$subcategory) {
+            abort(404);
+        }
         $products = Product::where(['status' => 1, 'subcategory_id' => $subcategory->id])
             ->select('id', 'name', 'slug', 'new_price', 'old_price', 'category_id', 'subcategory_id','sold','stock');
         $childcategories = Childcategory::where('subcategory_id', $subcategory->id)->get();
@@ -509,6 +515,9 @@ class FrontendController extends Controller
     {
         $soldShow = $request->sold=='show'?true:false;
         $childcategory = Childcategory::where(['slug' => $slug, 'status' => 1])->first();
+        if (!$childcategory) {
+            abort(404);
+        }
         $childcategories = Childcategory::where('subcategory_id', $childcategory->subcategory_id)->get();
         $products = Product::where(['status' => 1, 'childcategory_id' => $childcategory->id])->with('category')
             ->select('id', 'name', 'slug', 'new_price', 'old_price', 'category_id', 'subcategory_id', 'childcategory_id','sold','stock');
@@ -587,14 +596,16 @@ class FrontendController extends Controller
     public function quickview(Request $request)
     {
         $data['data'] = Product::where(['id' => $request->id, 'status' => 1])
-            ->with('images')
+            ->with(['image', 'images', 'category', 'brand'])
             ->withCount('reviews')
             ->first();
 
-        $data = view('frontEnd.layouts.ajax.quickview', $data)->render();
-        if ($data != '') {
-            echo $data;
+        if (!$data['data']) {
+            return response()->json(['error' => 'Product not found'], 404);
         }
+
+        $rendered = view('frontEnd.layouts.ajax.quickview', $data)->render();
+        return response($rendered);
     }
 
     public function livesearch(Request $request)

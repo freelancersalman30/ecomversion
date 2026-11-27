@@ -48,6 +48,11 @@ class ShoppingController extends Controller
         return false;
     }
 
+    public function cart_show()
+    {
+        return view('frontEnd.layouts.pages.cart');
+    }
+
     // 🟢 Add to cart (GET)
     public function addTocartGet($id, Request $request)
     {
@@ -241,7 +246,12 @@ class ShoppingController extends Controller
     // 🟢 Remove from cart
     public function cart_remove(Request $request)
     {
-        Cart::instance('shopping')->update($request->id, 0);
+        if ($request->id) {
+            $cart = Cart::instance('shopping')->content()->where('rowId', $request->id)->first();
+            if ($cart) {
+                Cart::instance('shopping')->remove($request->id);
+            }
+        }
         $data = Cart::instance('shopping')->content();
         return view('frontEnd.layouts.ajax.cart', compact('data'));
     }
@@ -249,10 +259,13 @@ class ShoppingController extends Controller
     // 🟢 Increment quantity
     public function cart_increment(Request $request)
     {
-        $item = Cart::instance('shopping')->get($request->id);
-        $qty  = $item->qty + 1;
-
-        Cart::instance('shopping')->update($request->id, $qty);
+        if ($request->id) {
+            $item = Cart::instance('shopping')->content()->where('rowId', $request->id)->first();
+            if ($item) {
+                $qty  = $item->qty + 1;
+                Cart::instance('shopping')->update($request->id, $qty);
+            }
+        }
 
         $data = Cart::instance('shopping')->content();
         return view('frontEnd.layouts.ajax.cart', compact('data'));
@@ -261,10 +274,13 @@ class ShoppingController extends Controller
     // 🟢 Decrement quantity
     public function cart_decrement(Request $request)
     {
-        $item = Cart::instance('shopping')->get($request->id);
-        $qty  = max(1, $item->qty - 1); // ১ এর নিচে নামবে না
-
-        Cart::instance('shopping')->update($request->id, $qty);
+        if ($request->id) {
+            $item = Cart::instance('shopping')->content()->where('rowId', $request->id)->first();
+            if ($item) {
+                $qty  = max(1, $item->qty - 1);
+                Cart::instance('shopping')->update($request->id, $qty);
+            }
+        }
 
         $data = Cart::instance('shopping')->content();
         return view('frontEnd.layouts.ajax.cart', compact('data'));

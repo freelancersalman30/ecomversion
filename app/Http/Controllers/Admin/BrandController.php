@@ -98,6 +98,11 @@ class BrandController extends Controller
         return redirect()->route('brands.index');
     }
  
+    public function show($id)
+    {
+        return redirect()->route('brands.edit', $id);
+    }
+
     public function inactive(Request $request)
     {
         $inactive = Brand::find($request->hidden_id);

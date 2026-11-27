@@ -266,4 +266,21 @@ class CampaignController extends Controller
         preg_match('/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $m);
         return $m[1] ?? null;
     }
+
+    public function show($id)
+    {
+        return redirect()->route('campaign.edit', $id);
+    }
+
+    public function imgdestroy(Request $request)
+    {
+        $campaign = Campaign::find($request->id);
+        if ($campaign && $campaign->image) {
+            File::delete($campaign->image);
+            $campaign->image = null;
+            $campaign->save();
+        }
+        Toastr::success('Image deleted successfully!');
+        return redirect()->back();
+    }
 }

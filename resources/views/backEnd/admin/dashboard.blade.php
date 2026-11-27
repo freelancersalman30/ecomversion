@@ -153,9 +153,9 @@
 
     <div class="col-md-3">
       <div class="dashboard-card">
-        <div class="metric-title">Sales Profit</div>
-        <div class="metric-value">TK {{ number_format($today_delivery * 12105) }}</div>
-        <small class="text-danger">Available Sales Profit</small>
+        <div class="metric-title">Today's Sales</div>
+        <div class="metric-value">TK {{ number_format($today_sales ?? 0, 2) }}</div>
+        <small class="text-success">Delivered orders today</small>
       </div>
     </div>
     <div class="col-md-3">
@@ -242,10 +242,16 @@ function noThanks() {
 }
 
 // Donut Chart
+var catLabels = {!! json_encode($category_sales->pluck('name')) !!};
+var catSeries = {!! json_encode($category_sales->pluck('total')->map(function($v){ return (float)$v; })) !!};
+if (catLabels.length === 0) {
+  catLabels = ['No Sales Yet'];
+  catSeries = [1];
+}
 var donut = new ApexCharts(document.querySelector("#categoryChart"), {
   chart:{type:'donut',height:270},
-  labels:['Men','Women','Kids','Electronics','Furniture'],
-  series:[44,33,12,21,10],
+  labels: catLabels,
+  series: catSeries,
   colors:['#7367F0','#28C76F','#EA5455','#FF9F43','#00CFE8'],
   legend:{position:'bottom'}
 });
